@@ -11,6 +11,7 @@ if ($#argv != 1) then
 endif
 
 set PREFIX=$argv[1]
+set LIBPREFIX=$argv[1]
 
 # GRASS GIS
 
@@ -19,16 +20,38 @@ git clone https://github.com/OSGeo/grass.git
 cd grass
 
 ./configure \
+    LDFLAGS="-L$LIBPREFIX/lib" \
     --prefix=$PREFIX/ \
-    --without-zstd \
-    --without-tiff \
-    --without-freetype \
-    --with-sqlite-includes=$PREFIX/include \
-    --with-sqlite-libs=$PREFIX/lib \
-    --with-proj-includes=$PREFIX/include \
-    --with-proj-libs=$PREFIX/lib/ \
-    --with-proj-share=$PREFIX/share \
-    --with-gdal=$PREFIX/bin/gdal-config
+    --with-zstd-includes=$LIBPREFIX/include \
+    --with-zstd-libs=$LIBPREFIX/lib \
+    --with-bzlib \
+    --with-bzlib-includes=$LIBPREFIX/include \
+    --with-bzlib-libs=$LIBPREFIX/lib \
+    --with-bzlib \
+    --with-bzlib-includes=$LIBPREFIX/include \
+    --with-bzlib-libs=$LIBPREFIX/lib \
+    --with-readline \
+    --with-readline-includes=$LIBPREFIX/include \
+    --with-readline-libs=$LIBPREFIX/lib \
+    --with-openmp \
+    --with-openmp-includes=$LIBPREFIX/include \
+    --with-openmp-libs=$LIBPREFIX/lib \
+    --with-tiff \
+    --with-tiff-includes=$LIBPREFIX/include \
+    --with-tiff-libs=$LIBPREFIX/lib \
+    --with-freetype \
+    --with-freetype-includes=$LIBPREFIX/include/freetype2 \
+    --with-freetype-libs=$LIBPREFIX/lib \
+    --with-sqlite-includes=$LIBPREFIX/include \
+    --with-sqlite-libs=$LIBPREFIX/lib \
+    --with-geos \
+    --with-geos-includes=$LIBPREFIX/include \
+    --with-geos-libs=$LIBPREFIX/lib \
+    --with-pdal=$LIBPREFIX/bin/pdal-config \
+    --with-proj-includes=$LIBPREFIX/include \
+    --with-proj-libs=$LIBPREFIX/lib/ \
+    --with-proj-share=$LIBPREFIX/share \
+    --with-gdal=$LIBPREFIX/bin/gdal-config
 
 make
 make install
